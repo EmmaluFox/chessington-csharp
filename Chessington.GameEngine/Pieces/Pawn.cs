@@ -12,17 +12,31 @@ namespace Chessington.GameEngine.Pieces
         {
             List<Square> squareList = new List<Square>();
             Square pieceLocation = board.FindPiece(this);
-            int whiteOrBlack = 0;
+            int OneSpace = 0;
+            int TwoSpaces = 0;
             if (Player == Player.White)
             {
-                whiteOrBlack = -1;
+                if (pieceLocation.Row == 7)
+                {
+                    TwoSpaces = -2;
+                    Square secondAvailableSquare = new Square(pieceLocation.Row+TwoSpaces , pieceLocation.Col);
+                    squareList.Add(secondAvailableSquare);
+                }
+                OneSpace = -1;
             } else if (Player == Player.Black)
             {
-                whiteOrBlack = 1;
+                if (pieceLocation.Row == 1)
+                {
+                    TwoSpaces = 2;
+                    Square secondAvailableSquare = new Square(pieceLocation.Row+TwoSpaces , pieceLocation.Col);
+                    squareList.Add(secondAvailableSquare);
+                }
+                OneSpace = 1;
             }
             
-            Square availableSquare = new Square(pieceLocation.Row+whiteOrBlack, pieceLocation.Col);
+            Square availableSquare = new Square(pieceLocation.Row+OneSpace, pieceLocation.Col);
             squareList.Add(availableSquare);
+            
             return squareList;
         }
     }
