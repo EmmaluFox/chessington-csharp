@@ -61,7 +61,7 @@ namespace Chessington.GameEngine.Tests.Pieces
         {
             var board = new Board();
             var pawn = new Pawn(Player.White);
-            board.AddPiece(Square.At(7, 5), pawn);
+            board.AddPiece(Square.At(6, 5), pawn);
 
             var moves = pawn.GetAvailableMoves(board).ToList();
 
@@ -87,13 +87,13 @@ namespace Chessington.GameEngine.Tests.Pieces
         {
             var board = new Board();
             var pawn = new Pawn(Player.White);
-            board.AddPiece(Square.At(7, 2), pawn);
+            board.AddPiece(Square.At(5, 2), pawn);
 
-            pawn.MoveTo(board, Square.At(6, 2));
+            pawn.MoveTo(board, Square.At(4, 2));
             var moves = pawn.GetAvailableMoves(board).ToList();
 
             moves.Should().HaveCount(1);
-            moves.Should().Contain(square => square.Equals(Square.At(5, 2)));
+            moves.Should().Contain(square => square.Equals(Square.At(3, 2)));
         }
 
         [Test]
