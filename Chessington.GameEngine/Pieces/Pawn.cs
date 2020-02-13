@@ -1,4 +1,5 @@
-﻿﻿using System.Collections.Generic;
+﻿﻿using System;
+ using System.Collections.Generic;
 using System.Linq;
 
 namespace Chessington.GameEngine.Pieces
@@ -19,18 +20,7 @@ namespace Chessington.GameEngine.Pieces
                 startingRow = 6;
                 Square twoSpacesForward = TwoSpacesForward(squareList, pieceLocation, -2);
                 Square oneSpaceForward = OneSpaceForward(squareList, pieceLocation, -1);
-                if (!IsSpaceOccupied(board, oneSpaceForward))
-                {
-                    squareList.Add(oneSpaceForward);
-                }
-
-                if (PieceInStartPosition(board, pieceLocation, startingRow))
-                {
-                    if (!IsSpaceOccupied(board, twoSpacesForward) && !IsSpaceOccupied(board, oneSpaceForward))
-                    {
-                        squareList.Add(twoSpacesForward);
-                    }
-                }
+                AddAvailableSpaces(board, pieceLocation, startingRow, twoSpacesForward, oneSpaceForward, squareList);
 
             }
             else if (Player == Player.Black)
@@ -38,21 +28,46 @@ namespace Chessington.GameEngine.Pieces
                 startingRow = 1;
                 Square twoSpacesForward = TwoSpacesForward(squareList, pieceLocation, 2);
                 Square oneSpaceForward = OneSpaceForward(squareList, pieceLocation, 1);
-                if (!IsSpaceOccupied(board, oneSpaceForward))
-                {
-                    squareList.Add(oneSpaceForward);
-                }
-
-                if (PieceInStartPosition(board, pieceLocation, startingRow))
-                {
-                    if (!IsSpaceOccupied(board, twoSpacesForward) && !IsSpaceOccupied(board, oneSpaceForward))
-                    {
-                        squareList.Add(twoSpacesForward);
-                    }
-                }
+                AddAvailableSpaces(board, pieceLocation, startingRow, twoSpacesForward, oneSpaceForward, squareList);
             }
             return squareList;
         }
+
+        public void AddAvailableSpaces(Board board, Square pieceLocation, int startingRow, Square twoSpacesForward,
+            Square oneSpaceForward, List<Square >squareList)
+        {
+            if (OneSpaceForwardAvailable(board, pieceLocation, oneSpaceForward))
+            {
+                squareList.Add(oneSpaceForward);
+            }
+
+            if (TwoSpaceForwardAvailable(board, pieceLocation, startingRow, twoSpacesForward, oneSpaceForward))
+            {
+                squareList.Add(twoSpacesForward);
+            }
+        }
+        
+        public bool TwoSpaceForwardAvailable(Board board, Square pieceLocation, int startingRow,
+            Square twoSpacesForward, Square oneSpaceForward)
+        {
+            bool result;
+            if (!PieceInStartPosition(board, pieceLocation, startingRow))
+            {
+                result = false;
+            }
+            else
+            {
+                result = !IsSpaceOccupied(board, twoSpacesForward) && !IsSpaceOccupied(board, oneSpaceForward);
+            }
+
+            return result;
+
+        }
+        
+        public bool OneSpaceForwardAvailable(Board board, Square pieceLocation, Square oneSpaceForward)
+        {
+            return !IsSpaceOccupied(board, oneSpaceForward);
+        } 
 
         public bool PieceInStartPosition(Board board, Square pieceLocation, int startingRow)
         {
