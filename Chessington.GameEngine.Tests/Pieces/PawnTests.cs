@@ -95,7 +95,7 @@ namespace Chessington.GameEngine.Tests.Pieces
             moves.Should().HaveCount(1);
             moves.Should().Contain(square => square.Equals(Square.At(3, 2)));
         }
-
+         
         [Test]
         public void BlackPawns_WhichHaveAlreadyMoved_CanOnlyMoveOneSquare()
         {
