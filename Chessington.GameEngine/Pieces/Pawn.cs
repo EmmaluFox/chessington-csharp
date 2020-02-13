@@ -12,32 +12,39 @@ namespace Chessington.GameEngine.Pieces
         {
             List<Square> squareList = new List<Square>();
             Square pieceLocation = board.FindPiece(this);
-            int OneSpace = 0;
-            int TwoSpaces = 0;
+            int oneSpace = 0;
+
+            int startingRow;
+
+
             if (Player == Player.White)
             {
-                if (pieceLocation.Row == 7)
-                {
-                    TwoSpaces = -2;
-                    Square secondAvailableSquare = new Square(pieceLocation.Row+TwoSpaces , pieceLocation.Col);
-                    squareList.Add(secondAvailableSquare);
-                }
-                OneSpace = -1;
-            } else if (Player == Player.Black)
-            {
-                if (pieceLocation.Row == 1)
-                {
-                    TwoSpaces = 2;
-                    Square secondAvailableSquare = new Square(pieceLocation.Row+TwoSpaces , pieceLocation.Col);
-                    squareList.Add(secondAvailableSquare);
-                }
-                OneSpace = 1;
+                startingRow = 7;
+                CanMoveTwoSpaces(squareList, pieceLocation, startingRow, -2);
+                CanMoveOneSpace(squareList, pieceLocation, -1);
             }
-            
-            Square availableSquare = new Square(pieceLocation.Row+OneSpace, pieceLocation.Col);
-            squareList.Add(availableSquare);
-            
+            else if (Player == Player.Black)
+            {
+                startingRow = 1;
+                CanMoveTwoSpaces(squareList, pieceLocation, startingRow, 2);
+                CanMoveOneSpace(squareList, pieceLocation, 1);
+            }
             return squareList;
+        }
+
+        public void CanMoveTwoSpaces(List<Square> squareList, Square pieceLocation, int startingRow, int twoSpace)
+        {
+            if (pieceLocation.Row == startingRow)
+            {
+                Square secondAvailableSquare = new Square(pieceLocation.Row + twoSpace, pieceLocation.Col);
+                squareList.Add(secondAvailableSquare);
+            }
+        }
+
+        public void CanMoveOneSpace(List<Square> squareList, Square pieceLocation, int oneSpace)
+        {
+            Square availableSquare = new Square(pieceLocation.Row + oneSpace, pieceLocation.Col);
+            squareList.Add(availableSquare);
         }
     }
 }
