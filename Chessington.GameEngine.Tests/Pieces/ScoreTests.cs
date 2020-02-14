@@ -63,4 +63,4 @@ namespace Chessington.GameEngine.Tests.Pieces
         }
     }
 }
-
+ 
