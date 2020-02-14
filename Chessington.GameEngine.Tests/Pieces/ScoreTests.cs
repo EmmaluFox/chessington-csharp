@@ -45,21 +45,22 @@ namespace Chessington.GameEngine.Tests.Pieces
         
         public void TestWhoIsWinning()
         {
-            var rook = new Rook(Player.Black);
-            var queen = new Queen(Player.Black);
-            var pawn2 = new Pawn(Player.Black);
+            //Black 15
+            var rook = new Rook(Player.Black); //5
+            var queen = new Queen(Player.Black);//9
+            var pawn2 = new Pawn(Player.Black);//1
             
-            
-            var knight = new Knight(Player.White);
-            var pawn = new Pawn(Player.White);
-            var pawn3 = new Pawn(Player.White);
+            //White5
+            var knight = new Knight(Player.White);//3
+            var pawn = new Pawn(Player.White);//1
+            var pawn3 = new Pawn(Player.White);//1
             
             var board = A.Fake<IBoard>();
             A.CallTo(() => board.CapturedPieces).Returns(new List<Piece> {rook,queen,knight,pawn,pawn2,pawn3});
             
             
             var scoreCalculator = new ScoreCalculator(board);
-            scoreCalculator.WhoIsWinning().Should().Be("Black is in the lead!");
+            scoreCalculator.WinningByHowMuch().Should().Be("Black is way ahead of White!");
         }
         
         [Test]
@@ -81,7 +82,7 @@ namespace Chessington.GameEngine.Tests.Pieces
             
             
             var scoreCalculator = new ScoreCalculator(board);
-            scoreCalculator.WhoIsWinning().Should().Be("Black has taken a slight lead!");
+            scoreCalculator.WinningByHowMuch().Should().Be("Black has taken a slight lead!");
         }
     }
 }

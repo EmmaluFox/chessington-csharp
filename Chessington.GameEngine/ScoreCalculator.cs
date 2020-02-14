@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace Chessington.GameEngine
 {
@@ -10,7 +11,8 @@ namespace Chessington.GameEngine
         {
             _board = board;
         }
-        
+        string _winner = "";
+        string _runnerUp = "";
         public int GetWhiteScore()
         {
             int whiteScore = 0;// Should add up the value of all of the pieces that white has taken.
@@ -41,21 +43,65 @@ namespace Chessington.GameEngine
             return blackScore;
         }
 
-        public string WhoIsWinning()
+
+        public void PrintScoreUpdate()
         {
-            string whoIsWinning = "";
+            WhoIsWinning();
+            Console.WriteLine(WinningByHowMuch());
+            
+        }
+        public void WhoIsWinning()
+        {
             //who is winning code
             if (GetBlackScore() > GetWhiteScore())
             {
-                whoIsWinning = "Black is in the lead!";
+                _winner = "Black";
+                _runnerUp = "White";
+
             } else if (GetWhiteScore() > GetBlackScore())
             {
-                whoIsWinning = "White is in the lead!";
+                _winner = "White";
+                _runnerUp = "Black";
             } else if (GetBlackScore() == GetWhiteScore())
             {
-                whoIsWinning = "It's neck and neck!";
+                _winner = "Neither player";
             }
-            return whoIsWinning;
+        }
+
+        public int GetDifferenceInScores()
+        {
+            int balance = 0;
+            if (_winner == "Black")
+            {
+                balance = GetBlackScore() - GetWhiteScore();
+            } else if (_winner == "White")
+            {
+                balance = GetWhiteScore() - GetBlackScore();
+            }
+            return balance;
+        }
+
+        public string WinningByHowMuch()
+        {
+            int balance = GetDifferenceInScores();
+            string message = "";
+            if (balance < 3 && balance > 0)
+            {
+                message = $@"{_winner} is in the lead, but it's very close!";
+            } else if (balance > 2 && balance < 6)
+            {
+                message = $@"{_winner} has taken a slight lead! Come on {_runnerUp}!";
+            } else if (balance > 5 && balance < 10)
+            {
+                message = $@"{_winner} is winning!";
+            } else if (balance > 9)
+            {
+                message = $@"{_winner} is way ahead of {_runnerUp}!";
+            } else if (balance == 0)
+            {
+                message = "Its neck and neck!";
+            }
+            return message;
         }
         
     }
