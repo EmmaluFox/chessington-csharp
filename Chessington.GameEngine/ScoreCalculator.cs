@@ -40,5 +40,12 @@ namespace Chessington.GameEngine
 
             return blackScore;
         }
+
+        public string WhoIsWinning()
+        {
+            //who is winning code
+            return "";
+        }
+        
     }
 }

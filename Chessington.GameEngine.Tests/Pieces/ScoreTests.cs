@@ -41,7 +41,26 @@ namespace Chessington.GameEngine.Tests.Pieces
             scoreCalculator.GetBlackScore().Should().Be(15);
         }
         
+        [Test]
         
+        public void TestWhoIsWinning()
+        {
+            var rook = new Rook(Player.Black);
+            var queen = new Queen(Player.Black);
+            var pawn2 = new Pawn(Player.Black);
+            
+            
+            var knight = new Knight(Player.White);
+            var pawn = new Pawn(Player.White);
+            var pawn3 = new Pawn(Player.White);
+            
+            var board = A.Fake<IBoard>();
+            A.CallTo(() => board.CapturedPieces).Returns(new List<Piece> {rook,queen,knight,pawn,pawn2,pawn3});
+            
+            
+            var scoreCalculator = new ScoreCalculator(board);
+            scoreCalculator.WhoIsWinning().Should().Be("Black");
+        }
     }
 }
 
