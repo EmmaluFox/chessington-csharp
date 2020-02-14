@@ -40,6 +40,8 @@ namespace Chessington.GameEngine.Tests.Pieces
             scoreCalculator.GetWhiteScore().Should().Be(5);
             scoreCalculator.GetBlackScore().Should().Be(15);
         }
+        
+        
     }
 }
 
