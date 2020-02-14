@@ -23,4 +23,4 @@ namespace Chessington.GameEngine
             return 0;
         }
     }
-}
+}s
