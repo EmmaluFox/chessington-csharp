@@ -20,9 +20,9 @@ namespace Chessington.GameEngine
             CapturedPieces = new List<Piece>();
         }
 
-        public void AddPiece(Square square, Piece pawn)
+        public void AddPiece(Square square, Piece piece)
         {
-            _board[square.Row, square.Col] = pawn;
+            _board[square.Row, square.Col] = piece;
         }
     
         public Piece GetPiece(Square square)
