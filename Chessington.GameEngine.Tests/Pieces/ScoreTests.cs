@@ -59,7 +59,7 @@ namespace Chessington.GameEngine.Tests.Pieces
             
             
             var scoreCalculator = new ScoreCalculator(board);
-            scoreCalculator.WhoIsWinning().Should().Be("Black");
+            scoreCalculator.WhoIsWinning().Should().Be("Black is in the lead!");
         }
     }
 }

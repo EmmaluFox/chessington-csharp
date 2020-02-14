@@ -43,8 +43,19 @@ namespace Chessington.GameEngine
 
         public string WhoIsWinning()
         {
+            string whoIsWinning = "";
             //who is winning code
-            return "";
+            if (GetBlackScore() > GetWhiteScore())
+            {
+                whoIsWinning = "Black is in the lead!";
+            } else if (GetWhiteScore() > GetBlackScore())
+            {
+                whoIsWinning = "White is in the lead!";
+            } else if (GetBlackScore() == GetWhiteScore())
+            {
+                whoIsWinning = "It's neck and neck!";
+            }
+            return whoIsWinning;
         }
         
     }
