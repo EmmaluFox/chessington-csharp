@@ -6,10 +6,12 @@ namespace Chessington.GameEngine.Pieces
 {
     public abstract class Piece
     {
+        public int CaptureValue { get; set; }
         //Constructors
-        protected Piece(Player player)
+        protected Piece(Player player, int captureValue)
         {
             Player = player;
+            CaptureValue = captureValue;
         }
 
         public Player Player { get; private set; }

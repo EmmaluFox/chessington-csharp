@@ -17,8 +17,8 @@ namespace Chessington.GameEngine.Tests.Pieces
             A.CallTo(() => board.CapturedPieces).Returns(new List<Piece> {rook});
             var scoreCalculator = new ScoreCalculator(board);
 
-
             scoreCalculator.GetWhiteScore().Should().Be(5);
         }
     }
 }
+

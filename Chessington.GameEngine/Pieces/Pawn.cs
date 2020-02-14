@@ -7,7 +7,7 @@ namespace Chessington.GameEngine.Pieces
     public class Pawn : Piece
     {
         public Pawn(Player player) 
-            : base(player) { }
+            : base(player, 1) { }
 
         public override IEnumerable<Square> GetAvailableMoves(Board board)
         {
