@@ -162,14 +162,14 @@ namespace Chessington.GameEngine.Tests.Pieces
             var pawn = new Pawn(Player.White);
             var firstTarget = new Pawn(Player.Black);
             var secondTarget = new Pawn(Player.Black);
-            board.AddPiece(Square.At(7, 3), pawn);
-            board.AddPiece(Square.At(6, 4), firstTarget);
-            board.AddPiece(Square.At(6, 2), secondTarget);
+            board.AddPiece(Square.At(6, 3), pawn);
+            board.AddPiece(Square.At(5, 4), firstTarget);
+            board.AddPiece(Square.At(5, 2), secondTarget);
 
             var moves = pawn.GetAvailableMoves(board).ToList();
 
-            moves.Should().Contain(Square.At(6, 2));
-            moves.Should().Contain(Square.At(6, 4));
+            moves.Should().Contain(Square.At(5, 2));
+            moves.Should().Contain(Square.At(5, 4));
         }
 
         [Test]
@@ -193,15 +193,15 @@ namespace Chessington.GameEngine.Tests.Pieces
         {
             var board = new Board();
             var pawn = new Pawn(Player.White);
-            board.AddPiece(Square.At(7, 3), pawn);
+            board.AddPiece(Square.At(6, 3), pawn);
 
             var friendlyPiece = new Pawn(Player.White);
-            board.AddPiece(Square.At(6, 2), friendlyPiece);
+            board.AddPiece(Square.At(5, 2), friendlyPiece);
 
             var moves = pawn.GetAvailableMoves(board).ToList();
 
-            moves.Should().NotContain(Square.At(6, 2));
-            moves.Should().NotContain(Square.At(6, 4));
+            moves.Should().NotContain(Square.At(5, 2));
+            moves.Should().NotContain(Square.At(5, 4));
         }
     }
 }

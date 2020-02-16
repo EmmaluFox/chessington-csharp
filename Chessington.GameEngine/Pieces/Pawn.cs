@@ -18,25 +18,29 @@ namespace Chessington.GameEngine.Pieces
             if (Player == Player.White)
             {
                 startingRow = 6;
-                Square twoSpacesForward = TwoSpacesForward(squareList, pieceLocation, -2);
-                Square oneSpaceForward = OneSpaceForward(squareList, pieceLocation, -1);
-                AddAvailableSpaces(board, pieceLocation, startingRow, twoSpacesForward, oneSpaceForward, squareList);
+                Square twoSpacesForward = TwoSpacesForward(pieceLocation, -2);
+                Square oneSpaceForward = OneSpaceForward(pieceLocation, -1);
+                Square diagonalLeft = DiagonalLeft(pieceLocation, -1, -1);
+                Square diagonalRight = DiagonalRight(pieceLocation, -1, 1);
+                AddAvailableSpaces(board, pieceLocation, startingRow, twoSpacesForward, oneSpaceForward, diagonalLeft, diagonalRight, squareList);
 
             }
             else if (Player == Player.Black)
             {
                 startingRow = 1;
-                Square twoSpacesForward = TwoSpacesForward(squareList, pieceLocation, 2);
-                Square oneSpaceForward = OneSpaceForward(squareList, pieceLocation, 1);
-                AddAvailableSpaces(board, pieceLocation, startingRow, twoSpacesForward, oneSpaceForward, squareList);
+                Square twoSpacesForward = TwoSpacesForward(pieceLocation, 2);
+                Square oneSpaceForward = OneSpaceForward(pieceLocation, 1);
+                Square diagonalLeft = DiagonalLeft(pieceLocation, 1, 1);
+                Square diagonalRight = DiagonalRight(pieceLocation, 1, -1);
+                AddAvailableSpaces(board, pieceLocation, startingRow, twoSpacesForward, oneSpaceForward, diagonalLeft, diagonalRight, squareList);
             }
             return squareList;
         }
 
         public void AddAvailableSpaces(Board board, Square pieceLocation, int startingRow, Square twoSpacesForward,
-            Square oneSpaceForward, List<Square >squareList)
+            Square oneSpaceForward, Square diagonalLeft, Square diagonalRight, List<Square >squareList)
         {
-            if (OneSpaceForwardAvailable(board, pieceLocation, oneSpaceForward))
+            if (OneSpaceForwardAvailable(board, oneSpaceForward))
             {
                 squareList.Add(oneSpaceForward);
             }
@@ -45,13 +49,23 @@ namespace Chessington.GameEngine.Pieces
             {
                 squareList.Add(twoSpacesForward);
             }
+
+            if (DiagonalLeftPossible(board, diagonalLeft, this))
+            {
+                squareList.Add(diagonalLeft);
+            }
+
+            if (DiagonalRightPossible(board, diagonalRight, this))
+            {
+                squareList.Add(diagonalRight);
+            }
         }
         
         public bool TwoSpaceForwardAvailable(Board board, Square pieceLocation, int startingRow,
             Square twoSpacesForward, Square oneSpaceForward)
         {
             bool result;
-            if (!PieceInStartPosition(board, pieceLocation, startingRow))
+            if (!PieceInStartPosition(pieceLocation, startingRow))
             {
                 result = false;
             }
@@ -64,27 +78,68 @@ namespace Chessington.GameEngine.Pieces
 
         }
         
-        public bool OneSpaceForwardAvailable(Board board, Square pieceLocation, Square oneSpaceForward)
+        public bool OneSpaceForwardAvailable(Board board, Square oneSpaceForward)
         {
             return !IsSpaceOccupied(board, oneSpaceForward);
         } 
 
-        public bool PieceInStartPosition(Board board, Square pieceLocation, int startingRow)
+        public bool PieceInStartPosition(Square pieceLocation, int startingRow)
         {
             var result = pieceLocation.Row == startingRow;
             return result;
         }
-        public Square TwoSpacesForward(List<Square> squareList, Square pieceLocation, int twoSpace)
+        public Square TwoSpacesForward(Square pieceLocation, int twoSpace)
         { 
             Square secondAvailableSquare = new Square(pieceLocation.Row + twoSpace, pieceLocation.Col);
             return secondAvailableSquare;
         }
 
-        public Square OneSpaceForward(List<Square> squareList, Square pieceLocation, int oneSpace)
+        public Square OneSpaceForward(Square pieceLocation, int oneSpace)
         {
             Square availableSquare = new Square(pieceLocation.Row + oneSpace, pieceLocation.Col);
             return availableSquare;
         }
+
+        public Square DiagonalLeft(Square pieceLocation, int rowChange, int diagonalL)
+        {
+            Square diagonalTakePossibleL = new Square(pieceLocation.Row + rowChange, pieceLocation.Col + diagonalL);
+            return diagonalTakePossibleL;
+        }
+        
+        public Square DiagonalRight(Square pieceLocation, int rowChange, int diagonalR)
+        {
+            Square diagonalTakePossibleL = new Square(pieceLocation.Row + rowChange, pieceLocation.Col + diagonalR);
+            return diagonalTakePossibleL;
+        }
+        
+        public bool DiagonalLeftPossible(Board board, Square diagonalLeft, Piece player)
+        {
+            bool result;
+            if (IsSpaceOccupied(board, diagonalLeft) && !IsOccupierFriendly(board, diagonalLeft, player))
+            {
+                result = true;
+            }
+            else
+            {
+                result = false;
+            }
+
+            return result;
+        } 
+        public bool DiagonalRightPossible(Board board, Square diagonalRight, Piece player)
+        {
+            bool result;
+            if (IsSpaceOccupied(board, diagonalRight) && !IsOccupierFriendly(board, diagonalRight, player))
+            {
+                result = true;
+            }
+            else
+            {
+                result = false;
+            }
+
+            return result;
+        } 
 
         public bool IsSpaceOccupied(Board board, Square square)
         {
@@ -100,6 +155,19 @@ namespace Chessington.GameEngine.Pieces
             }
             return spaceOccupied;
         }
-        
+        public bool IsOccupierFriendly(Board board, Square square, Piece pieceLocation)
+                 {
+                     bool isOccupierFriendly;
+                     Piece getPiece = board.GetPiece(square);
+                     if (getPiece.Player == pieceLocation.Player)
+                     {
+                         isOccupierFriendly = true;
+                     }
+                     else
+                     {
+                         isOccupierFriendly = false;
+                     }
+                     return isOccupierFriendly;
+                 }
     }
 }
