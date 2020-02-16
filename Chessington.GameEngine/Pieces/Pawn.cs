@@ -173,8 +173,8 @@ namespace Chessington.GameEngine.Pieces
         public bool IsSquareOnBoard(Square square)
         {
             bool result;
-            if (square.Row > 0 && square.Row < 7 && square.Col > 0 &&
-                square.Col < 7)
+            if (square.Row > 0 && square.Row < 8 && square.Col > 0 &&
+                square.Col < 8)
             {
                 result = true;
             }
