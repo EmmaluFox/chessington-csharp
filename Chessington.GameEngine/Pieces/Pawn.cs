@@ -40,22 +40,22 @@ namespace Chessington.GameEngine.Pieces
         public void AddAvailableSpaces(Board board, Square pieceLocation, int startingRow, Square twoSpacesForward,
             Square oneSpaceForward, Square diagonalLeft, Square diagonalRight, List<Square >squareList)
         {
-            if (OneSpaceForwardAvailable(board, oneSpaceForward))
+            if (OneSpaceForwardAvailable(board, oneSpaceForward) && IsSquareOnBoard(oneSpaceForward))
             {
                 squareList.Add(oneSpaceForward);
             }
 
-            if (TwoSpaceForwardAvailable(board, pieceLocation, startingRow, twoSpacesForward, oneSpaceForward))
+            if (TwoSpaceForwardAvailable(board, pieceLocation, startingRow, twoSpacesForward, oneSpaceForward) && IsSquareOnBoard(twoSpacesForward))
             {
                 squareList.Add(twoSpacesForward);
             }
 
-            if (DiagonalLeftPossible(board, diagonalLeft, this))
+            if (DiagonalLeftPossible(board, diagonalLeft, this) && IsSquareOnBoard(diagonalLeft))
             {
                 squareList.Add(diagonalLeft);
             }
 
-            if (DiagonalRightPossible(board, diagonalRight, this))
+            if (DiagonalRightPossible(board, diagonalRight, this) && IsSquareOnBoard(diagonalRight))
             {
                 squareList.Add(diagonalRight);
             }
@@ -169,5 +169,20 @@ namespace Chessington.GameEngine.Pieces
                      }
                      return isOccupierFriendly;
                  }
+
+        public bool IsSquareOnBoard(Square square)
+        {
+            bool result;
+            if (square.Row > 0 && square.Row < 7 && square.Col > 0 &&
+                square.Col < 7)
+            {
+                result = true;
+            }
+            else
+            {
+                result = false;
+            }
+            return result;
+        }
     }
 }
